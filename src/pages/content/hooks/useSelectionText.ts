@@ -25,12 +25,17 @@ export const useSelectionText = () => {
     };
   }, [selectionChangeEvent]);
 
-  const calculateJpy = useCallback(async () => {
-    const [success, value] = await convertRate(selection?.toString());
-    if (success) {
-      setJpy(value);
-    }
-  }, [selection]);
+  const calculateJpy = useCallback(
+    async (pathValue?: string) => {
+      const [success, value] = await convertRate(
+        pathValue ?? selection?.toString()
+      );
+      if (success) {
+        setJpy(value);
+      }
+    },
+    [selection]
+  );
 
   useEffect(() => {
     calculateJpy();
@@ -39,6 +44,7 @@ export const useSelectionText = () => {
   return {
     selection,
     setSelection,
+    calculateJpy,
     jpy,
   };
 };
